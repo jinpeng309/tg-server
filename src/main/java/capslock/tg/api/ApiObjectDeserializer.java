@@ -1,5 +1,6 @@
 package capslock.tg.api;
 
+import capslock.tg.annotations.ApiConstructorId;
 import capslock.tg.api.object.TLObject;
 import capslock.tg.api.deserializer.TLObjectDeserializer;
 import com.google.common.collect.ImmutableMap;
@@ -20,10 +21,10 @@ public final class ApiObjectDeserializer {
         DESERIALIZER_MAP = deserializerMapBuilder.build();
 
         final Reflections reflections = new Reflections(DESERIALIZER_PACKAGE_PREFIX);
-        final Set<Class<?>> deserializerClass = reflections.getTypesAnnotatedWith(capslock.tg.annotations.ApiObjectDeserializer.class);
+        final Set<Class<?>> deserializerClass = reflections.getTypesAnnotatedWith(ApiConstructorId.class);
         deserializerClass.forEach(clazz -> {
             try {
-                final int constructorId = clazz.getAnnotation(capslock.tg.annotations.ApiObjectDeserializer.class).value();
+                final int constructorId = clazz.getAnnotation(ApiConstructorId.class).value();
                 final TLObjectDeserializer deserializer = (TLObjectDeserializer) clazz.newInstance();
                 deserializerMapBuilder.put(constructorId, deserializer);
             } catch (InstantiationException | IllegalAccessException e) {

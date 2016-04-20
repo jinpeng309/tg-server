@@ -3,6 +3,6 @@ package capslock.tg.annotations;
 /**
  * Created by capslock.
  */
-public @interface ApiObjectDeserializer {
+public @interface ApiConstructorId {
     int value();
 }
