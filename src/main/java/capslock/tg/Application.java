@@ -1,6 +1,6 @@
 package capslock.tg;
 
-import capslock.tg.component.Connector;
+import capslock.tg.component.connection.Connector;
 import capslock.tg.configuration.DiConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

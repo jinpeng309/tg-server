@@ -21,11 +21,6 @@ public class ProtocolDataDecoder extends ByteToMessageDecoder {
     }
 
     @Override
-    public void channelActive(final ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
-    }
-
-    @Override
     protected void decode(final ChannelHandlerContext ctx, final ByteBuf in, final List<Object> out) throws Exception {
         while (in.readableBytes() > 0) {
             switch (state) {

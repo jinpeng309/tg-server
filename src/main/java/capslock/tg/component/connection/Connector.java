@@ -1,4 +1,4 @@
-package capslock.tg.component;
+package capslock.tg.component.connection;
 
 import capslock.tg.handler.ProtocolDataDecoder;
 import capslock.tg.handler.ProtocolDataHandler;
@@ -11,6 +11,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Data
 public final class Connector {
     private int port;
+    @Autowired
+    private ConnectionManager connectionManager;
 
     public void start() {
         final EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -33,7 +36,7 @@ public final class Connector {
                         @Override
                         protected void initChannel(final SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast(new ProtocolDataDecoder());
-                            socketChannel.pipeline().addLast(new ProtocolDataHandler());
+                            socketChannel.pipeline().addLast(new ProtocolDataHandler(connectionManager));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)

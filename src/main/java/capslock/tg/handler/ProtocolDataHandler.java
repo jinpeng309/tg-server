@@ -1,33 +1,35 @@
 package capslock.tg.handler;
 
 import capslock.tg.ProtocolData;
-import capslock.tg.api.ApiObjectDeserializer;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import capslock.tg.component.connection.Connection;
+import capslock.tg.component.connection.ConnectionManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.nio.ByteOrder;
+import java.net.InetSocketAddress;
 
 /**
  * Created by capslock.
  */
 public final class ProtocolDataHandler extends SimpleChannelInboundHandler<ProtocolData> {
+    private ConnectionManager connectionManager;
+    private String connId;
+
+    public ProtocolDataHandler(final ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    @Override
+    public void channelActive(final ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        final InetSocketAddress clientAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+        connId = clientAddress.getHostName() + ":" + clientAddress.getPort();
+        final Connection connection = new Connection(connId, ctx);
+        connectionManager.registerConnection(connId, connection);
+    }
 
     @Override
     protected void messageReceived(final ChannelHandlerContext ctx, final ProtocolData protocolData) throws Exception {
-        final ByteBuf littleEndDataBuf = protocolData.getData().order(ByteOrder.LITTLE_ENDIAN);
-        final long authId = littleEndDataBuf.readLong();
-        if (authId == 0){
-            final long messageId = littleEndDataBuf.readLong();
-            final int dataLength = littleEndDataBuf.readInt();
-            final ByteBuf data = Unpooled.buffer(dataLength);
-            littleEndDataBuf.readBytes(data);
-            //todo ack
-            ApiObjectDeserializer.deserialize(data);
-
-        }else{
-
-        }
+        connectionManager.messageReceivedFromClient(connId, protocolData);
     }
 }
