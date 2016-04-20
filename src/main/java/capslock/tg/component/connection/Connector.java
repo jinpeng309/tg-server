@@ -25,7 +25,8 @@ public final class Connector {
     @Autowired
     private ConnectionManager connectionManager;
 
-    public void start() {
+    public void start(final int port) {
+        this.port = port;
         final EventLoopGroup bossGroup = new NioEventLoopGroup();
         final EventLoopGroup workGroup = new NioEventLoopGroup();
         final ServerBootstrap serverBootstrap = new ServerBootstrap();

@@ -1,12 +1,13 @@
 package capslock.tg.api;
 
 import capslock.tg.annotations.ApiConstructorId;
-import capslock.tg.api.object.TLObject;
 import capslock.tg.api.deserializer.TLObjectDeserializer;
+import capslock.tg.api.object.TLObject;
 import com.google.common.collect.ImmutableMap;
 import io.netty.buffer.ByteBuf;
 import org.reflections.Reflections;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -33,9 +34,9 @@ public final class ApiObjectDeserializer {
         });
     }
 
-    public static TLObject deserialize(final ByteBuf data) {
+    public static Optional<TLObject> deserialize(final ByteBuf data) {
         final int constructor = data.readInt();
-        final TLObjectDeserializer deserializer = DESERIALIZER_MAP.get(constructor);
-        return deserializer.deserialize(data);
+        final Optional<TLObjectDeserializer> deserializer = Optional.ofNullable(DESERIALIZER_MAP.get(constructor));
+        return deserializer.flatMap(objectDeserializer -> Optional.of(objectDeserializer.deserialize(data)));
     }
 }

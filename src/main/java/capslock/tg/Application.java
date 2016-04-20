@@ -11,7 +11,7 @@ public class Application {
     public static void main(String[] args) {
         final AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(DiConfiguration.class);
-        final Connector connector = context.getBean(Connector.class, 80);
-        connector.start();
+        final Connector connector = context.getBean(Connector.class);
+        connector.start(80);
     }
 }

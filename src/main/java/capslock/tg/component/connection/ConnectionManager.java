@@ -1,7 +1,7 @@
 package capslock.tg.component.connection;
 
-import capslock.tg.model.ProtocolData;
 import capslock.tg.filter.PacketFilter;
+import capslock.tg.model.ProtocolData;
 import capslock.tg.processor.PacketProcessor;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +37,5 @@ public class ConnectionManager {
                 return;
             }
         }
-
     }
 }
