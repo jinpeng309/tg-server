@@ -1,6 +1,6 @@
 package capslock.tg.handler;
 
-import capslock.tg.ProtocolData;
+import capslock.tg.model.ProtocolData;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;

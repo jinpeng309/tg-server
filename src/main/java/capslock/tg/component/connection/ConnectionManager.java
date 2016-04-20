@@ -1,6 +1,6 @@
 package capslock.tg.component.connection;
 
-import capslock.tg.ProtocolData;
+import capslock.tg.model.ProtocolData;
 import capslock.tg.filter.PacketFilter;
 import capslock.tg.processor.PacketProcessor;
 import org.springframework.stereotype.Component;

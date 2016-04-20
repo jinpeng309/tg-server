@@ -1,6 +1,6 @@
 package capslock.tg.processor;
 
-import capslock.tg.ProtocolData;
+import capslock.tg.model.ProtocolData;
 import capslock.tg.component.connection.Connection;
 
 /**

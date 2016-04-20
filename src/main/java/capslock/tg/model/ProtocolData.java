@@ -1,4 +1,4 @@
-package capslock.tg;
+package capslock.tg.model;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;

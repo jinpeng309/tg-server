@@ -1,6 +1,6 @@
 package capslock.tg.handler;
 
-import capslock.tg.ProtocolData;
+import capslock.tg.model.ProtocolData;
 import capslock.tg.component.connection.Connection;
 import capslock.tg.component.connection.ConnectionManager;
 import io.netty.channel.ChannelHandlerContext;
