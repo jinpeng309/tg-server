@@ -42,4 +42,11 @@ public final class ProtocolDataHandler extends SimpleChannelInboundHandler<Proto
     protected void messageReceived(final ChannelHandlerContext ctx, final ProtocolData protocolData) throws Exception {
         connectionManager.messageReceivedFromClient(connId, protocolData);
     }
+
+    @Override
+    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) throws Exception {
+        super.exceptionCaught(ctx, cause);
+        connectionManager.clientClosed(connId);
+        ctx.close();
+    }
 }
