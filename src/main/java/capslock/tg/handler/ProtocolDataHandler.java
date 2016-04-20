@@ -5,6 +5,7 @@ import capslock.tg.component.connection.Connection;
 import capslock.tg.component.connection.ConnectionManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleState;
 
 import java.net.InetSocketAddress;
 
@@ -17,6 +18,15 @@ public final class ProtocolDataHandler extends SimpleChannelInboundHandler<Proto
 
     public ProtocolDataHandler(final ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
+    }
+
+    @Override
+    public void userEventTriggered(final ChannelHandlerContext ctx, final Object evt) throws Exception {
+        super.userEventTriggered(ctx, evt);
+        if (evt instanceof IdleState) {
+            connectionManager.clientClosed(connId);
+            ctx.close();
+        }
     }
 
     @Override

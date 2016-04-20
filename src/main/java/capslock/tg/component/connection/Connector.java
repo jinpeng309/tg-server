@@ -10,6 +10,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,7 @@ public final class Connector {
                         protected void initChannel(final SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast(new ProtocolDataDecoder());
                             socketChannel.pipeline().addLast(new ProtocolDataHandler(connectionManager));
+                            socketChannel.pipeline().addLast(new IdleStateHandler(300, 300, 300));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)

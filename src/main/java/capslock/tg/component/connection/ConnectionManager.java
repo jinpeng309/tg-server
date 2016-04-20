@@ -24,6 +24,10 @@ public class ConnectionManager {
         }
     }
 
+    public void clientClosed(final String connId) {
+        connectionsMap.remove(connId);
+    }
+
     public void messageReceivedFromClient(final String connId, final ProtocolData protocolData) {
         final Connection connection = connectionsMap.get(connId);
         processors.forEach(packetProcessor -> packetProcessor.process(connection, protocolData));
