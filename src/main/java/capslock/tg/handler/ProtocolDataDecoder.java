@@ -1,7 +1,8 @@
-package capslock.tg.net.handler;
+package capslock.tg.handler;
 
-import capslock.tg.net.Packet;
+import capslock.tg.ProtocolData;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
@@ -11,8 +12,7 @@ import java.util.List;
 /**
  * Created by capslock.
  */
-public class PacketDecoder extends ByteToMessageDecoder {
-    private static final int ABRIDGEDV_ERSION = 0xffffffef;
+public class ProtocolDataDecoder extends ByteToMessageDecoder {
     private PacketParseState state = PacketParseState.AWAIT_PACKET_LENGTH_VERSION;
     private int packetLength;
 
@@ -31,8 +31,10 @@ public class PacketDecoder extends ByteToMessageDecoder {
             switch (state) {
                 case AWAIT_PACKET_LENGTH_VERSION:
                     final int packetLengthVersion = in.readByte();
-                    if (packetLengthVersion == ABRIDGEDV_ERSION) {
+                    if (packetLengthVersion == 0xffffffef) {
                         state = PacketParseState.AWAIT_PACKET_LENGTH_HEADER;
+                    } else {
+                        ctx.close();
                     }
                     break;
                 case AWAIT_PACKET_LENGTH_HEADER:
@@ -55,14 +57,9 @@ public class PacketDecoder extends ByteToMessageDecoder {
                     break;
                 case AWAIT_PACKET_DATA:
                     if (in.readableBytes() >= packetLength) {
-                        final long authId = in.order(ByteOrder.LITTLE_ENDIAN).readLong();
-                        final long messageId = in.order(ByteOrder.LITTLE_ENDIAN).readLong();
-                        final int dataLength = in.order(ByteOrder.LITTLE_ENDIAN).readInt();
-                        final byte[] data = new byte[dataLength];
-                        in.readBytes(data);
-                        state = PacketParseState.AWAIT_PACKET_LENGTH_HEADER;
-                        final Packet packet = new Packet(authId, messageId, data);
-                        out.add(packet);
+                        final ByteBuf protocolDataByteBuf = Unpooled.buffer(packetLength);
+                        in.readBytes(protocolDataByteBuf, packetLength);
+                        out.add(new ProtocolData(protocolDataByteBuf));
                         return;
                     }
                     break;
