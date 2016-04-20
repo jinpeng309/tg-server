@@ -4,9 +4,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by alvin.
+ * Created by capslock.
  */
 @Configuration
-@ComponentScan(value = "capslock.tg.net.component")
+@ComponentScan(value = "capslock.tg.component")
 public class DiConfiguration {
 }

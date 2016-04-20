@@ -1,4 +1,4 @@
-package capslock.tg.api.serializer;
+package capslock.tg.api.deserializer;
 
 import capslock.tg.api.object.TLObject;
 import io.netty.buffer.ByteBuf;
