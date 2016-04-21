@@ -19,8 +19,6 @@ public final class ApiObjectDeserializer {
 
     static {
         final ImmutableMap.Builder<Integer, TLObjectDeserializer> deserializerMapBuilder = ImmutableMap.builder();
-        DESERIALIZER_MAP = deserializerMapBuilder.build();
-
         final Reflections reflections = new Reflections(DESERIALIZER_PACKAGE_PREFIX);
         final Set<Class<?>> deserializerClass = reflections.getTypesAnnotatedWith(ApiConstructorId.class);
         deserializerClass.forEach(clazz -> {
@@ -32,6 +30,8 @@ public final class ApiObjectDeserializer {
                 e.printStackTrace();
             }
         });
+        DESERIALIZER_MAP = deserializerMapBuilder.build();
+
     }
 
     public static TLObject deserialize(final ByteBuf data) {
