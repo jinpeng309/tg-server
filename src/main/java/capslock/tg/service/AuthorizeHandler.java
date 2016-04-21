@@ -14,7 +14,7 @@ import java.nio.ByteOrder;
  * Created by capslock.
  */
 public final class AuthorizeHandler {
-    private static enum STATE {
+    private enum STATE {
         AWAIT_REQ_PQ, AWAIT_REQ_DH_PARAMS, AWAIT_SET_CLIENT_DH_PARAMS
     }
 
