@@ -49,4 +49,9 @@ public final class ProtocolDataHandler extends SimpleChannelInboundHandler<Proto
         connectionManager.clientClosed(connId);
         ctx.close();
     }
+
+    @Override
+    public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
+        connectionManager.clientClosed(connId);
+    }
 }

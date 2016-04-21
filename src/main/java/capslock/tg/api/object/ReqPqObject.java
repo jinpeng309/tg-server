@@ -14,7 +14,7 @@ public final class ReqPqObject extends TLObject {
     private final byte[] nonce;
 
     @Override
-    public int getConstructor() {
+    public int getConstructId() {
         return CONSTRUCTOR_ID;
     }
 }
